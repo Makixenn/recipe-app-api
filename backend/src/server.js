@@ -3,11 +3,15 @@ import { ENV } from "./config/env.js";
 import {db} from "./config/db.js";
 import { favoritesTable } from './db/schema.js';
 import { eq, and } from "drizzle-orm";
+import job from "./config/cron.js";
+
+
 
 const app = express();
 const PORT = ENV.PORT || 3000;
 
-
+// Start the cron job
+if(ENV.NODE_ENV === "production") job.start();
 app.use(express.json());
 
 app.get("/api/health", (req, res) => {
